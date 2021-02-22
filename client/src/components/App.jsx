@@ -1,20 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import StoryCreator from "./StoryCreator.jsx";
 import axios from "axios";
+import StoryCreator from "./StoryCreator";
+import Stories from "./Stories";
+import PickedStory from "./PickedStory";
+import FinishedStory from "./FinishedStory"
 
 class App extends React.Component {
   constructor() {
     super();
+    this.state = {
+      stories: [],
+      story: {},
+      pickedStory: '',
+      completeStory: ''
+    }
     this.submitStory = this.submitStory.bind(this)
     this.getAll = this.getAll.bind(this)
+    this.pickStory = this.pickStory.bind(this)
+    this.submitWords = this.submitWords.bind(this)
+    this.home = this.home.bind(this)
   }
 
   submitStory (e) {
     e.preventDefault()
     let author = e.target[0].value;
     let storyTitle = e.target[1].value;
-    let text = e.target[2].value;
+    let text = ' ' + e.target[2].value;
     let split = text.split('/')
     let lines = [];
     let words = [];
@@ -31,18 +43,63 @@ class App extends React.Component {
       lines,
       words
     }
-    console.log(body)
     axios.post('/', body)
       .then((data) => {
-        console.log(data)
+        this.getAll()
       })
   }
 
   getAll () {
     axios.get('/stories')
       .then(data => {
-        console.log(data)
+        this.setState({
+          stories: data.data
+        })
       })
+  }
+
+  pickStory (e) {
+    e.preventDefault();
+    let story;
+    for (let i = 0; i < this.state.stories.length; i++) {
+      if (this.state.stories[i]._id === e.target.id) {
+        story = this.state.stories[i]
+        break;
+      }
+    }
+    this.setState({
+      pickedStory: story
+    })
+  }
+
+  submitWords (e) {
+    // debugger;
+    e.preventDefault()
+    let words = []
+    for (let i = 0; i < e.target.children.length; i++) {
+      words.push(e.target[i].value)
+    }
+    let story = ''
+    for (let i = 0; i < words.length || i < this.state.pickedStory.lines.length; i++) {
+      if (i < this.state.pickedStory.lines.length) {
+        story += this.state.pickedStory.lines[i]
+      }
+      if (i < words.length) {
+        story += words[i]
+      }
+    }
+    console.log(story)
+    this.setState({
+      completeStory: story
+    })
+  }
+
+  home (e) {
+    e.preventDefault()
+    this.setState({
+      pickedStory: '',
+      completeStory: ''
+    })
   }
 
   componentDidMount () {
@@ -50,11 +107,19 @@ class App extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <div>hello</div>
+    let toRender = null;
+    if (this.state.completeStory) {
+      toRender = <FinishedStory completeStory={this.state.completeStory} home={this.home}/>
+    } else if (this.state.pickedStory) {
+      toRender = <PickedStory pickedStory={this.state.pickedStory} submitWords={this.submitWords}/>
+    } else {
+      toRender = (<div>
         <StoryCreator submitStory={this.submitStory}/>
-      </div>
+        <Stories stories={this.state.stories} pickStory={this.pickStory} />
+      </div>)
+    }
+    return (
+      toRender
     );
   }
 }
