@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/madlib');
 
 const CompletedStoriesSchema = mongoose.Schema({
-  user: String,
+  author: String,
   date: String,
   story: String
 })
 
 const MadlibSchema = mongoose.Schema({
-  user: String,
+  author: String,
+  storyTitle: String,
   lines: [String],
   words: [String],
   stories: [CompletedStoriesSchema]
@@ -22,9 +23,14 @@ let addLib = (object) => {
   return Madlib.create(object)
 }
 
+let getAllStories = () => {
+  return Madlib.find({})
+}
+
 
 module.exports = {
   addLib,
+  getAllStories
 }
 // let test = {
 //   user: 'Tarrin',

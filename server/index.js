@@ -12,12 +12,23 @@ app.get('/', (req, res) => {
   res.send('hello')
 })
 
+app.get('/stories', (req, res) => {
+  db.getAllStories()
+    .then((data) => {
+      res.send(data)
+    })
+    .catch(error => {
+      res.send(error)
+    })
+})
+
 app.post('/', (req, res) => {
   db.addLib(req.body)
     .then((data) => {
       res.send(data)
     })
 })
+
 
 app.listen(port, () => {
   console.log(`listening at ${port}`)
