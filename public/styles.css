@@ -1,4 +1,9 @@
 .listItem {
   border: 1px solid;
   border-radius: 4px;
+  width: 370px;
+}
+textarea {
+  height: 200px;
+  width: 364px;
 }
