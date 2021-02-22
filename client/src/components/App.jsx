@@ -134,6 +134,7 @@ class App extends React.Component {
       toRender = <PickedStory pickedStory={this.state.pickedStory} submitWords={this.submitWords}/>
     } else {
       toRender = (<div>
+        <div>Write your own ad lib! Write a story and add keywords between /'s (eg. look a(n) /adjective/ snail!)</div>
         <StoryCreator submitStory={this.submitStory}/>
         <Stories stories={this.state.stories} pickStory={this.pickStory} />
       </div>)
