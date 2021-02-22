@@ -136,6 +136,7 @@ class App extends React.Component {
       toRender = (<div>
         <div>Write your own ad lib! Write a story and add keywords between /'s (eg. look a(n) /adjective/ snail!)</div>
         <StoryCreator submitStory={this.submitStory}/>
+        <h3>Other Stories To Try!</h3>
         <Stories stories={this.state.stories} pickStory={this.pickStory} />
       </div>)
     }
