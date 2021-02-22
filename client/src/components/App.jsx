@@ -48,14 +48,17 @@ class App extends React.Component {
       .then((data) => {
         this.getAll()
       })
+    e.target.reset()
   }
 
   getAll () {
     axios.get('/stories')
       .then(data => {
-        this.setState({
-          stories: data.data
-        })
+        if(Array.isArray(data.data)) {
+          this.setState({
+            stories: data.data
+          })
+        }
       })
   }
 
@@ -96,7 +99,9 @@ class App extends React.Component {
   }
 
   home (e) {
-    e.preventDefault()
+    if(e) {
+      e.preventDefault()
+    }
     this.setState({
       pickedStory: '',
       completeStory: ''
@@ -113,7 +118,7 @@ class App extends React.Component {
     }
     axios.post('/save', body)
       .then((data) => {
-        console.log(data)
+        this.home()
       })
   }
 

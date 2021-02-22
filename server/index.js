@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000
+require('dotenv').config();
 const bodyparser = require('body-parser');
 const db = require('../database')
 
@@ -30,7 +31,6 @@ app.post('/', (req, res) => {
 })
 
 app.post('/save', (req, res) => {
-  debugger;
   let body = req.body;
   body.date = new Date()
   db.addStory(body)

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/madlib');
+mongoose.connect(process.env.DBTOKEN);
 
 const CompletedStoriesSchema = mongoose.Schema({
   madLib_id: String,
@@ -22,6 +22,12 @@ let CompletedStories = mongoose.model('Story', CompletedStoriesSchema);
 
 let addLib = (object) => {
   return Madlib.create(object)
+    .then((data) => {
+      debugger;
+    })
+    .catch((error) => {
+      debugger;
+    })
 }
 
 let getAllStories = () => {
@@ -29,7 +35,6 @@ let getAllStories = () => {
 }
 
 let addStory = (object) => {
-  debugger
   return CompletedStories.create(object)
 }
 
