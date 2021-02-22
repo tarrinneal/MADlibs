@@ -5,7 +5,7 @@ let StoryCreator = ({submitStory}) => {
     <div>
       <form onSubmit={submitStory} >
         <input type="text" placeholder="Author Name"></input>
-        <input type="text" placeholder="Story Name"></input>
+        <input type="text" placeholder="Story Name"></input><br/>
         <textarea type="text" placeholder="Your Story!"/>
         <input type="submit"/>
       </form>
