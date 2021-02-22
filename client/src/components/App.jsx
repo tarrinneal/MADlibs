@@ -20,6 +20,7 @@ class App extends React.Component {
     this.pickStory = this.pickStory.bind(this)
     this.submitWords = this.submitWords.bind(this)
     this.home = this.home.bind(this)
+    this.saveLib = this.saveLib.bind(this)
   }
 
   submitStory (e) {
@@ -102,6 +103,20 @@ class App extends React.Component {
     })
   }
 
+  saveLib (e) {
+    e.preventDefault();
+    debugger;
+    let body = {
+      author: e.target[0].value,
+      story: this.state.completeStory,
+      madLib_id: this.state.pickedStory._id
+    }
+    axios.post('/save', body)
+      .then((data) => {
+        console.log(data)
+      })
+  }
+
   componentDidMount () {
     this.getAll()
   }
@@ -109,7 +124,7 @@ class App extends React.Component {
   render() {
     let toRender = null;
     if (this.state.completeStory) {
-      toRender = <FinishedStory completeStory={this.state.completeStory} home={this.home}/>
+      toRender = <FinishedStory completeStory={this.state.completeStory} home={this.home} saveLib={this.saveLib}/>
     } else if (this.state.pickedStory) {
       toRender = <PickedStory pickedStory={this.state.pickedStory} submitWords={this.submitWords}/>
     } else {

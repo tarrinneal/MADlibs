@@ -29,6 +29,16 @@ app.post('/', (req, res) => {
     })
 })
 
+app.post('/save', (req, res) => {
+  debugger;
+  let body = req.body;
+  body.date = new Date()
+  db.addStory(body)
+    .then(data => {
+      res.send(data)
+    })
+})
+
 
 app.listen(port, () => {
   console.log(`listening at ${port}`)
