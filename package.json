@@ -4,7 +4,7 @@
   "description": "Empty repo with express, mysql, mongo/mongoose, react, babel, and webpack",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server",
+    "start": "node server/index.js",
     "build": "webpack",
     "watch": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1"
